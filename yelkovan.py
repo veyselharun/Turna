@@ -196,6 +196,7 @@ def analyse(assembly_file: str, trace_files: list) -> None:
     root_node = asm_tools.get_function_start('main', assembly_code)
     create_di_graph(cfg, -1, root_node)
 
+
     # Configure the graph.
     cfg.graph['node']={'shape':'box', 'fontname':'sans', 'margin':'0.07', 'width':'0.1', 'height':'0.1'}
     # cfg.graph['edges']={'arrowsize':'1.0'}
@@ -294,6 +295,7 @@ def add_item_to_start_list(starting_point: int) -> None:
         start_list.append(starting_point)
 
 
+
 def create_di_graph(cfg: networkx.DiGraph, previous_node: int, 
                     current_node: int) -> None:
     """Creates control flow graph of the program.
@@ -351,19 +353,16 @@ def create_di_graph(cfg: networkx.DiGraph, previous_node: int,
     cfg.nodes[current_node]['label'] = "Start: " + str(start_list[index]) + "; End: " + str(end_list[index][0])
     cfg.nodes[current_node]['start'] = start_list[index]
     cfg.nodes[current_node]['end'] = end_list[index][0]
-    cfg.nodes[current_node]['target1'] = "null"
-    cfg.nodes[current_node]['target2'] = "null"
+    for i1 in range(1, len(end_list[index])):
+        target = 'target' + str(i1)
+        print(target)
+        cfg.nodes[current_node][target] = "null"
 
-    if (len(end_list[index]) == 2):
-        # There is one target            
-        cfg.nodes[current_node]['target1'] = end_list[index][1]
-        create_di_graph(cfg, current_node, end_list[index][1])
-    elif (len(end_list[index]) == 3):
-        # There are two targets
-        cfg.nodes[current_node]['target1'] = end_list[index][1]
-        create_di_graph(cfg, current_node, end_list[index][1])
-        cfg.nodes[current_node]['target2'] = end_list[index][2]
-        create_di_graph(cfg, current_node, end_list[index][2])
+    for i2 in range(1, len(end_list[index])):
+        target = 'target' + str(i2)
+        print(target)
+        cfg.nodes[current_node][target] = end_list[index][i2]
+        create_di_graph(cfg, current_node, end_list[index][i2])
 
 
 
