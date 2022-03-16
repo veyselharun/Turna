@@ -1,4 +1,4 @@
-"""Trace tools of Yelkovan.
+"""Trace tools of Turna.
 
 This file includes helper functions to process trace file.
 

@@ -1,4 +1,4 @@
-"""Assembly tools of Yelkovan.
+"""Assembly tools of Turna.
 
 This file includes helper functions to process assembly file.
 

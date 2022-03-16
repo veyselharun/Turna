@@ -1,16 +1,15 @@
 
-"""Yelkovan
+"""Turna
 
-Yelkovan is a program analyser for RISC-V architecture. It detects 
-basic blocks of risc-v assembly code and creates the control flow graph of the 
-program. The cfg is outputted to command line as text and to pdf file as figure. 
+Turna is a control flow graph (CFG) reconstructor for RISC-V architecture. It 
+performs hybrid CFG reconstruction. It detects basic blocks of RISC-V executable
+by analyzing its assembly code with the help of trace information gathered using 
+gem5 architecture simulator. After basic block detection, it constructs the CFG
+of the program. The CFG is outputted to command line as text and to pdf file as 
+a figure. 
 
-The detection of the basic blocks is performed by the help of trace information 
-of the program. Yelkovan analyses the trace files created by gem5 architecture 
-simulator.
-
-Yelkovan takes two types of input files. Assembly file of the program and
-trace files of the program. To be able to create a cfg of the a program perform
+Turna takes two types of input files. Assembly file of the program and
+trace files of the program. To create the CFG of a program perform
 the following steps:
 
 1. Create the assembly file of the program's executable file by the help of 
@@ -18,23 +17,23 @@ objdump tool which is delivered with the RISC-V compiler toolchain.
 2. Give ".dump" extension to the assembly file.
 3. Create trace files of the program by using gem5 architecture simulator.
 4. Give ".trc" extension to the trace files.
-5. Put above mentioned files to the working directory of Yelkovan.
-6. Run Yelkovan.
+5. Put above mentioned files to the working directory of Turna.
+6. Run Turna.
 7. The text outuput is going to be shown in command line interface, and the
 graphical output is created as a pdf file in the working directory.
 
-Yelkovan Defaults
-- Line numbers in Yelkovan starts with 0.
+Turna Defaults
+- Line numbers in Turna starts with 0.
 - Addresses of instructions are in hexadecimal format and does not include
 additional symbols like "0x", "h", etc. A sample address is "100c8".
 
 """
 
-# Assembly tools of Yelkovan which includes functions that help processing 
+# Assembly tools of Turna which includes functions that help processing 
 # assembly file.
 import asm_tools
 
-# Trace tools of Yelkovan which includes functions that help processing 
+# Trace tools of Turna which includes functions that help processing 
 # trace files.
 import trace_tools
 
@@ -96,9 +95,9 @@ root_node = 0
 
 
 def main() -> None:
-    """Main function of Yelkovan.
+    """Main function of Turna.
 
-    This function is called by the entry point of the Yelkovan. This function
+    This function is called by the entry point of the Turna. This function
     searches the current directory for assembly file and trace files of the
     program and then calls analyse function for program structure analysis.
     """
@@ -616,7 +615,7 @@ def process_jump_inst(line_no: int, tokens: list, assembly_code: list,
         # Find the end point (ret instruction) of the target function. Its 
         # return point is the next line of the jal instruction. Add this info
         # to the end list.
-        # Yelkovan now detects the target of ret instruction
+        # Turna now detects the target of ret instruction
         # by the help of jal instruction in assembly code. Although ret is 
         # a indirect jump instruction there is no need to search for the
         # target of ret instrucion in trace files.
@@ -648,7 +647,7 @@ def process_jump_inst(line_no: int, tokens: list, assembly_code: list,
         # Find the end point (ret instruction) of the target function. Its 
         # return point is the next line of the jal instruction. Add this info
         # to the end list.
-        # Yelkovan now detects the target of ret instruction
+        # Turna now detects the target of ret instruction
         # by the help of jal instruction in assembly code. Although ret is 
         # a indirect jump instruction there is no need to search for the
         # target of ret instrucion in trace files.
@@ -742,7 +741,7 @@ def find_target(source_address: str, assembly_code: list,
 
 
 if __name__ == "__main__":
-    """Entry point of the Yelkovan.
+    """Entry point of the Turna.
     """
 
     main()
