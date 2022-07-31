@@ -1,0 +1,73 @@
+strict digraph "" {
+        node [fontname=sans,
+                height=0.1,
+                label="\N",
+                margin=0.07,
+                shape=box,
+                width=0.1
+        ];
+        286     [end=293,
+                label="Start: 286; End: 293",
+                start=286,
+                target1=316];
+        316     [end=320,
+                label="Start: 316; End: 320",
+                start=316,
+                target1=321,
+                target2=294];
+        286 -> 316;
+        321     [end=326,
+                label="Start: 321; End: 326",
+                start=321];
+        316 -> 321;
+        294     [end=301,
+                label="Start: 294; End: 301",
+                start=294,
+                target1=302,
+                target2=313];
+        316 -> 294;
+        302     [end=307,
+                label="Start: 302; End: 307",
+                start=302,
+                target1=227];
+        294 -> 302;
+        313     [end=315,
+                label="Start: 313; End: 315",
+                start=313,
+                target1=316];
+        294 -> 313;
+        227     [end=236,
+                label="Start: 227; End: 236",
+                start=227,
+                target1=237,
+                target2=279];
+        302 -> 227;
+        237     [end=246,
+                label="Start: 237; End: 246",
+                start=237,
+                target1=247];
+        227 -> 237;
+        279     [end=279,
+                label="Start: 279; End: 279",
+                start=279,
+                target1=280];
+        227 -> 279;
+        247     [end=248,
+                label="Start: 247; End: 248",
+                start=247,
+                target1=280];
+        237 -> 247;
+        280     [end=283,
+                label="Start: 280; End: 283",
+                start=280,
+                target1=308];
+        247 -> 280;
+        308     [end=312,
+                label="Start: 308; End: 312",
+                start=308,
+                target1=313];
+        280 -> 308;
+        308 -> 313;
+        313 -> 316;
+        279 -> 280;
+}

@@ -45,7 +45,7 @@ def get_function_start(function_name: str, assembly_code: list) -> int:
             break
 
     if line_no == -1:
-        raise Exception("The function" + function_name + "could not be found "
+        raise Exception("The function " + function_name + " could not be found "
                         "in the current assembly code.")
     else:
         return line_no + 1
@@ -94,6 +94,9 @@ def get_function_end(function_name: str, assembly_code: list) -> int:
         # If an empty line is found this means that the end of the function is 
         # reached and no ret instruction is encountered
         if (line == ''):
+            # TODO: Double check the following functionality.
+            # line_no = line_no - 1
+            # found = True
             break
         
         # Tokenize the current line and check if it is ret instruction or not.
@@ -106,7 +109,7 @@ def get_function_end(function_name: str, assembly_code: list) -> int:
     if found == True:
         return line_no
     else:
-        raise Exception("The end point of the function" + function_name + "could "
+        raise Exception("The end point of the function " + function_name + " could "
                         "not be found in the current assembly code.")
 
 

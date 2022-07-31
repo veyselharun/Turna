@@ -6,6 +6,9 @@ It performs hybrid CFG reconstruction. It analyzes RISC-V assembly code with the
 
 Turna is open-source and licensed under the MIT license.
 
+# License Note
+
+The license of Turna only applies to the source code of Turna. The benchmark programs found in the test data section have their own licenses. Please check their source codes for the license.
 
 # How to Use Turna
 

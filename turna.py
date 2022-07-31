@@ -31,6 +31,9 @@ additional symbols like "0x", "h", etc. A sample address is "100c8".
 
 """
 
+# To measure the running time
+from time import time
+
 # Assembly tools of Turna which includes functions that help processing 
 # assembly file.
 import asm_tools
@@ -75,8 +78,7 @@ end_list: List[List[int]] = []
 will_be_visited_fn_list = []
 
 # Conditional branch instructions
-branch_inst = ["beq", "bne", "blt", "bltu", "bge", "bgeu", "beqz", "bnez",
-    "bltz", "blez", "bgtz", "bgez", "bgt", "bgtu", "ble", "bleu"]
+branch_inst = ["beq", "bne", "blt", "bltu", "bge", "bgeu", "beqz", "bnez", "bltz", "blez", "bgtz", "bgez", "bgt", "bgtu", "ble", "bleu"]
 
 # Unconditional jump instruction
 jump_inst = ["ret", "jal", "j", "jalr", "jr"]
@@ -94,6 +96,17 @@ cfg_set = set()
 # Starting line number of the root node of the graph.
 root_node = 0
 
+
+# Performance analysis variable. We write values to these variables.
+# During the running of the program, the values are written to those variables.
+# At the end of the program perfoance values ara calculated and printed.
+# Look at the entry point of the program.
+milliseconds_start = 0
+milliseconds_analysis = 0
+milliseconds_print_cfg = 0
+milliseconds_draw_pdf_cfg = 0
+total_node_count = 0
+total_edge_count = 0
 
 
 def main() -> None:
@@ -151,6 +164,15 @@ def analyse(assembly_file: str, trace_files: list) -> None:
 
     visited_fn_list = []
 
+    # Performance analysis variable. We write values to these variables.
+    # At the end of the program perfoance values ara calculated and printed.
+    # Look at the entry point of the program.
+    global milliseconds_analysis
+    global milliseconds_print_cfg
+    global milliseconds_draw_pdf_cfg
+    global total_node_count
+    global total_edge_count
+
     global start_list
     global end_list
     global will_be_visited_fn_list
@@ -202,10 +224,18 @@ def analyse(assembly_file: str, trace_files: list) -> None:
     cfg.graph['node']={'shape':'box', 'fontname':'sans', 'margin':'0.07', 'width':'0.1', 'height':'0.1'}
     # cfg.graph['edges']={'arrowsize':'1.0'}
 
+    # Get node and edge count of the graph for performance/statistics.
+    total_node_count = cfg.number_of_nodes()
+    total_edge_count = cfg.number_of_edges()
+
     cfg_graph = to_agraph(cfg)
+    milliseconds_analysis = int(time() * 1000)
     print(cfg_graph)
+    milliseconds_print_cfg = int(time() * 1000)
     cfg_graph.layout('dot')
     cfg_graph.draw('cfg.pdf')
+    milliseconds_draw_pdf_cfg = int(time() * 1000)
+
 
 
 def add_item_to_end_list(end_point: int, target: List[int] = None) -> None:
@@ -356,12 +386,12 @@ def create_di_graph(cfg: networkx.DiGraph, previous_node: int,
     cfg.nodes[current_node]['end'] = end_list[index][0]
     for i1 in range(1, len(end_list[index])):
         target = 'target' + str(i1)
-        print(target)
+        #print(target)
         cfg.nodes[current_node][target] = "null"
 
     for i2 in range(1, len(end_list[index])):
         target = 'target' + str(i2)
-        print(target)
+        #print(target)
         cfg.nodes[current_node][target] = end_list[index][i2]
         create_di_graph(cfg, current_node, end_list[index][i2])
 
@@ -536,8 +566,10 @@ def process_branch_inst(line_no: int, tokens: list, assembly_code: list) -> None
     operands = tokens[3].split(',')
 
     # operands[2] -> target address
-
-    target_line_no = asm_tools.address_to_line_no(operands[2], assembly_code)
+    if (len(operands) == 2):
+        target_line_no = asm_tools.address_to_line_no(operands[1], assembly_code)
+    elif (len(operands) == 3):
+        target_line_no = asm_tools.address_to_line_no(operands[2], assembly_code)
 
     # The line of the current branch instruction is the end of a basic block.
     # Branch instructions have two targets.
@@ -746,4 +778,15 @@ if __name__ == "__main__":
     """Entry point of the Turna.
     """
 
+
+    milliseconds_start = int(time() * 1000)
     main()
+    milliseconds_end = int(time() * 1000)
+
+
+    print("CFG Creation Time : ", milliseconds_analysis - milliseconds_start, "ms")
+    print("CFG Printing Time : ", milliseconds_print_cfg - milliseconds_analysis, "ms")
+    print("CFG Drawing (PDF) Time : ", milliseconds_draw_pdf_cfg - milliseconds_print_cfg, "ms")
+    print("Total Running Time : ", milliseconds_end - milliseconds_start, "ms")
+    print("Total Node Count : ", total_node_count)
+    print("Total Edge Count : ", total_edge_count)

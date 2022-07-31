@@ -1,0 +1,68 @@
+strict digraph "" {
+        node [fontname=sans,
+                height=0.1,
+                label="\N",
+                margin=0.07,
+                shape=box,
+                width=0.1
+        ];
+        227     [end=232,
+                label="Start: 227; End: 232",
+                start=227,
+                target1=241];
+        241     [end=251,
+                label="Start: 241; End: 251",
+                start=241,
+                target1=302];
+        227 -> 241;
+        302     [end=306,
+                label="Start: 302; End: 306",
+                start=302,
+                target1=307,
+                target2=252];
+        241 -> 302;
+        307     [end=311,
+                label="Start: 307; End: 311",
+                start=307,
+                target1=233];
+        302 -> 307;
+        252     [end=266,
+                label="Start: 252; End: 266",
+                start=252,
+                target1=267,
+                target2=278];
+        302 -> 252;
+        233     [end=238,
+                label="Start: 233; End: 238",
+                start=233];
+        307 -> 233;
+        267     [end=277,
+                label="Start: 267; End: 277",
+                start=267,
+                target1=294];
+        252 -> 267;
+        278     [end=286,
+                label="Start: 278; End: 286",
+                start=278,
+                target1=287,
+                target2=291];
+        252 -> 278;
+        294     [end=301,
+                label="Start: 294; End: 301",
+                start=294,
+                target1=302];
+        267 -> 294;
+        294 -> 302;
+        287     [end=290,
+                label="Start: 287; End: 290",
+                start=287,
+                target1=294];
+        278 -> 287;
+        291     [end=293,
+                label="Start: 291; End: 293",
+                start=291,
+                target1=294];
+        278 -> 291;
+        287 -> 294;
+        291 -> 294;
+}

@@ -1,0 +1,6 @@
+Analysis Time :  2832 ms
+CFG Printing Time :  69 ms
+CFG Drawing (PDF) Time :  26181 ms
+Total Running Time :  29088 ms
+Total Node Count :  754
+Total Edge Count :  1378
